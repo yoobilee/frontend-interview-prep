@@ -1,10 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from './components/Layout'
+import HomePage from './pages/HomePage'
+import QuestionsPage from './pages/QuestionsPage'
+import PracticePage from './pages/PracticePage'
+import BookmarksPage from './pages/BookmarksPage'
+
 function App() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-center mt-10">
-        Frontend Interview Prep
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/questions" element={<Layout><QuestionsPage /></Layout>} />
+        <Route path="/practice" element={<Layout><PracticePage /></Layout>} />
+        <Route path="/bookmarks" element={<Layout><BookmarksPage /></Layout>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

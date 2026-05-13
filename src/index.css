@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+:root {
+  --bg-base: #0E0C0A;
+  --bg-surface: #1C1917;
+  --bg-elevated: #292524;
+  --point: #F97316;
+  --point-hover: #EA6C0A;
+  --text-primary: #FAFAF9;
+  --text-secondary: #A8A29E;
+  --text-muted: #57534E;
+  --border: #292524;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
