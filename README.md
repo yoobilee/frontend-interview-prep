@@ -10,7 +10,7 @@
 
 ## 🔗 배포
 
-**[fe-interview-prep.vercel.app](https://fe-interview-prep.vercel.app)**
+**[frontend-interview-prep-ruby.vercel.app](https://frontend-interview-prep-ruby.vercel.app/)**
 
 <br />
 
