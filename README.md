@@ -1,16 +1,93 @@
-# React + Vite
+# FE Interview Prep
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 말할 수 있어야 아는 것입니다.
 
-Currently, two official plugins are available:
+프론트엔드 개발자로 전환을 준비하면서 한 가지 고민이 생겼습니다.  
+개념은 이해하고 있는데, 막상 말로 설명하려면 어디서부터 시작해야 할지 막막한 순간들.  
+암기가 아니라 말로 꺼내는 연습이 필요하다고 생각해서 직접 만들었습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<br />
 
-## React Compiler
+## 🔗 배포
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**[fe-interview-prep.vercel.app](https://fe-interview-prep.vercel.app)**
 
-## Expanding the ESLint configuration
+<br />
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 주요 기능
+
+**질문 목록**  
+카테고리(HTML/CSS, JavaScript, React, 브라우저/네트워크, CS 기초, 성능 최적화)와 난이도별 필터링을 지원합니다.
+
+**질문 상세**  
+단순한 모범 답변 암기가 아닌, 면접관의 의도와 핵심 키워드를 함께 제공합니다.  
+답변 연습 후 키워드를 직접 체크하며 내 답변의 완성도를 스스로 평가할 수 있습니다.
+
+**연습 모드**  
+카테고리, 난이도, 문제 수, 타이머를 직접 설정해 실전처럼 연습할 수 있습니다.  
+세션이 끝나면 카테고리별 분포를 시각화해 취약한 영역을 파악할 수 있습니다.
+
+**북마크**  
+다시 보고 싶은 질문을 저장하고, 카테고리별로 묶어서 확인할 수 있습니다.
+
+<br />
+
+## 🛠 기술 스택
+
+| 분류 | 스택 |
+|------|------|
+| Framework | React 19, Vite |
+| Routing | React Router v6 |
+| 상태 관리 | Zustand |
+| 스타일링 | Tailwind CSS, CSS Variables |
+| 아이콘 | Lucide React |
+| 배포 | Vercel |
+
+<br />
+
+## 💡 설계 의도
+
+**데이터 구조**  
+질문 데이터는 카테고리별 JS 파일로 분리해 관리합니다.  
+현재는 정적 파일 기반이지만, 추후 Supabase 연동으로 확장 가능한 구조로 설계했습니다.
+
+**상태 관리**  
+북마크는 Zustand + localStorage로 관리해 새로고침 후에도 유지됩니다.  
+별도 백엔드 없이 클라이언트 단에서 완결되는 구조를 택했습니다.
+
+**UX**  
+면접 준비라는 맥락에 맞게, 정보를 한 번에 보여주지 않고 단계적으로 열어보는 방식을 택했습니다.  
+힌트 → 핵심 키워드 → 모범 답변 순으로 스스로 생각할 시간을 확보할 수 있습니다.
+
+<br />
+
+## 📁 프로젝트 구조
+
+```
+src/
+├── components/       # 공통 컴포넌트 (Layout, Header)
+├── pages/            # 페이지 컴포넌트
+├── data/
+│   └── questions/    # 카테고리별 질문 데이터
+├── store/            # Zustand 스토어
+└── styles/           # 전역 스타일
+```
+
+<br />
+
+## 🗺 로드맵
+
+- [x] 질문 목록 및 필터링
+- [x] 질문 상세 (면접관 의도, 키워드 체크, 관련 질문)
+- [x] 연습 모드 (타이머, 결과 시각화)
+- [x] 북마크 (카테고리별 그룹핑)
+- [x] Vercel 배포
+- [ ] AI 답변 피드백
+- [ ] 사용자 질문 제보
+- [ ] 기업별 필터 (네카라쿠배 등)
+
+<br />
+
+---
+
+Developed by **YooBi Lee**
