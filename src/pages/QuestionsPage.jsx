@@ -111,7 +111,7 @@ function QuestionsPage() {
                   padding: '6px 14px',
                   fontSize: '12px',
                   fontWeight: isActive ? 600 : 400,
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                   background: isActive ? 'var(--bg-elevated)' : 'transparent',
                   border: 'none',
                   borderRadius: '6px',
