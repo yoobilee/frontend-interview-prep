@@ -1,6 +1,8 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 function Layout({ children }) {
+  const navigate = useNavigate()
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-base)' }}>
       <header style={{
@@ -19,9 +21,15 @@ function Layout({ children }) {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--point)' }}>
-            FE Interview
-          </span>
+          <div
+            onClick={() => navigate('/')}
+            style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+          >
+            <img src='/favicon.svg' alt='logo' style={{ width: '28px', height: '28px' }} />
+            <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--point)' }}>
+              FE Interview
+            </span>
+          </div>
           <nav style={{ display: 'flex', gap: '32px' }}>
             {[
               { to: '/questions', label: '질문 목록' },

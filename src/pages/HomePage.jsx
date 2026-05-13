@@ -12,20 +12,20 @@ const KEYWORDS = [
 ]
 
 const POSITIONS = [
-  { top: '5%',  left: '3%'  }, { top: '5%',  left: '18%' },
-  { top: '5%',  left: '72%' }, { top: '5%',  left: '87%' },
+  { top: '5%', left: '3%' }, { top: '5%', left: '18%' },
+  { top: '5%', left: '72%' }, { top: '5%', left: '87%' },
   { top: '14%', left: '10%' }, { top: '14%', left: '80%' },
-  { top: '23%', left: '2%'  }, { top: '23%', left: '88%' },
-  { top: '32%', left: '6%'  }, { top: '32%', left: '83%' },
-  { top: '41%', left: '2%'  }, { top: '41%', left: '90%' },
-  { top: '50%', left: '4%'  }, { top: '50%', left: '87%' },
-  { top: '59%', left: '2%'  }, { top: '59%', left: '83%' },
-  { top: '68%', left: '6%'  }, { top: '68%', left: '88%' },
-  { top: '77%', left: '3%'  }, { top: '77%', left: '78%' },
+  { top: '23%', left: '2%' }, { top: '23%', left: '88%' },
+  { top: '32%', left: '6%' }, { top: '32%', left: '83%' },
+  { top: '41%', left: '2%' }, { top: '41%', left: '90%' },
+  { top: '50%', left: '4%' }, { top: '50%', left: '87%' },
+  { top: '59%', left: '2%' }, { top: '59%', left: '83%' },
+  { top: '68%', left: '6%' }, { top: '68%', left: '88%' },
+  { top: '77%', left: '3%' }, { top: '77%', left: '78%' },
   { top: '86%', left: '10%' }, { top: '86%', left: '55%' },
   { top: '86%', left: '83%' }, { top: '93%', left: '25%' },
   { top: '93%', left: '45%' }, { top: '93%', left: '70%' },
-  { top: '5%',  left: '35%' }, { top: '5%',  left: '53%' },
+  { top: '5%', left: '35%' }, { top: '5%', left: '53%' },
   { top: '14%', left: '25%' }, { top: '14%', left: '60%' },
   { top: '23%', left: '15%' }, { top: '23%', left: '72%' },
   { top: '77%', left: '20%' }, { top: '77%', left: '45%' },
@@ -120,16 +120,26 @@ function HomePage() {
 
       {/* 콘텐츠 */}
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <p style={{
-          fontSize: '13px',
-          fontWeight: 500,
-          letterSpacing: '0.15em',
-          color: 'var(--point)',
-          marginBottom: '24px',
-          textTransform: 'uppercase',
+
+        {/* 브랜드 */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+          marginBottom: '32px',
         }}>
-          Frontend Interview Prep
-        </p>
+          <img src='/favicon.svg' alt='logo' style={{ width: '24px', height: '24px' }} />
+          <p style={{
+            fontSize: '15px',
+            fontWeight: 700,
+            letterSpacing: '0.2em',
+            color: 'var(--point)',
+            textTransform: 'uppercase',
+          }}>
+            Frontend Interview Prep
+          </p>
+        </div>
 
         <h1 style={{
           fontSize: 'clamp(36px, 6vw, 72px)',
@@ -139,7 +149,7 @@ function HomePage() {
           marginBottom: '24px',
           letterSpacing: '-0.02em',
         }}>
-          면접, 제대로<br />준비하고 있나요?
+          말할 수 있어야<br />아는 것입니다
         </h1>
 
         <p style={{
@@ -149,40 +159,51 @@ function HomePage() {
           maxWidth: '480px',
           marginBottom: '48px',
         }}>
-          프론트엔드 면접에서 자주 나오는 질문들을 모았습니다.
-          타이머로 실전처럼 연습하고, 부족한 부분을 북마크하세요.
+          면접은 준비한 만큼 말할 수 있습니다.<br />
+          실전처럼 연습하고, 부족한 부분을 북마크하세요.
         </p>
 
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', justifyContent: 'center' }}>
           <button
             onClick={() => navigate('/questions')}
             style={{
-              padding: '14px 32px',
+              padding: '14px 36px',
               backgroundColor: 'var(--point)',
               color: '#fff',
               border: 'none',
               borderRadius: '8px',
               fontSize: '15px',
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: 'pointer',
+              boxShadow: '0 4px 24px rgba(249,115,22,0.35)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
             }}
           >
             질문 보기
+            <span style={{ fontSize: '16px' }}>→</span>
           </button>
+
           <button
             onClick={() => navigate('/practice')}
             style={{
-              padding: '14px 32px',
+              padding: '0',
               backgroundColor: 'transparent',
-              color: 'var(--text-primary)',
-              border: '1px solid var(--border)',
-              borderRadius: '8px',
-              fontSize: '15px',
-              fontWeight: 600,
+              color: 'var(--text-secondary)',
+              border: 'none',
+              fontSize: '14px',
+              fontWeight: 500,
               cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'color 0.2s',
             }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
           >
-            연습 시작
+            연습 시작 →
           </button>
         </div>
       </div>
