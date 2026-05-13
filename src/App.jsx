@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import QuestionsPage from './pages/QuestionsPage'
 import PracticePage from './pages/PracticePage'
 import BookmarksPage from './pages/BookmarksPage'
+import QuestionDetailPage from './pages/QuestionDetailPage'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/questions" element={<Layout><QuestionsPage /></Layout>} />
         <Route path="/practice" element={<Layout><PracticePage /></Layout>} />
         <Route path="/bookmarks" element={<Layout><BookmarksPage /></Layout>} />
+        <Route path="/questions/:id" element={<Layout><QuestionDetailPage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )
