@@ -1,4 +1,4 @@
-export const performanceQuestionss = [
+export const performanceQuestions = [
   // ─── 성능 최적화 ───
   {
     id: 15,
