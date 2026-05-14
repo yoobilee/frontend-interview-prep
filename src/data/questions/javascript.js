@@ -97,189 +97,162 @@ async/await:
 - 여러 Promise를 병렬로 처리할 때는 Promise.all과 함께 async/await 사용`,
   },
   {
-    id: 17,
-    categoryId: 'html-css',
-    title: 'CSS position 속성의 종류와 차이점을 설명해주세요.',
-    difficulty: 'easy',
-    tags: ['position', 'CSS', 'layout'],
-    intent: 'CSS 레이아웃의 기본 개념을 이해하고 있는지, 실무에서 position을 적절히 활용할 수 있는지 확인합니다.',
-    keywords: ['static', 'relative', 'absolute', 'fixed', 'sticky', '기준 요소'],
-    hint: '각 값이 어떤 기준으로 위치를 잡는지 생각해보세요.',
-    answer: `position 속성은 요소의 배치 방식을 결정합니다.
+    id: 24,
+    categoryId: 'javascript',
+    title: '프로토타입(Prototype)이란 무엇인가요?',
+    difficulty: 'hard',
+    tags: ['prototype', '상속', 'JavaScript'],
+    intent: '자바스크립트의 객체 지향 방식을 이해하고 있는지, 클래스와의 관계를 설명할 수 있는지 확인합니다.',
+    keywords: ['프로토타입 체인', '__proto__', 'prototype 객체', '상속', 'Object.create'],
+    hint: '자바스크립트의 상속이 클래스 기반 언어와 어떻게 다른지 생각해보세요.',
+    answer: `프로토타입은 자바스크립트에서 객체 간 상속을 구현하는 메커니즘입니다.
 
-static (기본값):
-- 문서 흐름에 따라 배치
-- top, left 등의 속성 적용 안 됨
+핵심 개념:
+- 모든 객체는 [[Prototype]] 내부 슬롯을 가짐
+- 객체의 프로퍼티나 메서드를 찾을 때 없으면 프로토타입 체인을 따라 상위로 탐색
+- 최상위는 Object.prototype, 그 다음은 null
 
-relative:
-- 문서 흐름 유지, 자기 자신을 기준으로 이동
-- 다른 요소에 영향을 주지 않음
+프로토타입 체인:
+- 인스턴스 → 생성자.prototype → Object.prototype → null
 
-absolute:
-- 문서 흐름에서 제거
-- position이 static이 아닌 가장 가까운 조상 요소를 기준으로 배치
+클래스와의 관계:
+- ES6 class는 프로토타입 기반 상속의 문법적 설탕(syntactic sugar)
+- 내부적으로는 여전히 프로토타입으로 동작
 
-fixed:
-- 뷰포트를 기준으로 고정
-- 스크롤해도 위치 유지
-
-sticky:
-- 스크롤 위치에 따라 relative와 fixed를 전환
-- 특정 임계값에 도달하면 고정됨`,
+활용:
+- 메서드를 prototype에 정의하면 인스턴스가 공유 → 메모리 효율적`,
   },
   {
-    id: 18,
-    categoryId: 'html-css',
-    title: 'CSS 애니메이션과 JavaScript 애니메이션의 차이점은 무엇인가요?',
+    id: 25,
+    categoryId: 'javascript',
+    title: 'this 키워드는 어떻게 결정되나요?',
+    difficulty: 'hard',
+    tags: ['this', 'JavaScript', '바인딩'],
+    intent: 'this 바인딩 규칙을 이해하고 실무에서 발생하는 this 관련 버그를 해결할 수 있는지 확인합니다.',
+    keywords: ['암묵적 바인딩', '명시적 바인딩', 'new 바인딩', '화살표 함수', 'call/apply/bind'],
+    hint: 'this는 선언 시점이 아니라 호출 시점에 결정된다는 점을 기억하세요.',
+    answer: `this는 함수가 호출되는 방식에 따라 동적으로 결정됩니다.
+
+1. 기본 바인딩: 일반 함수 호출 → 전역 객체 (strict mode에서는 undefined)
+2. 암묵적 바인딩: 메서드 호출 → 호출한 객체
+3. 명시적 바인딩: call, apply, bind → 지정한 객체
+4. new 바인딩: 생성자 함수 호출 → 새로 생성된 인스턴스
+5. 화살표 함수: 상위 스코프의 this를 그대로 사용 (바인딩 없음)
+
+우선순위: new > 명시적 > 암묵적 > 기본
+
+실무 주의사항:
+- 콜백 함수로 메서드를 전달하면 암묵적 바인딩이 사라짐
+- 이 경우 화살표 함수 또는 bind()로 해결`,
+  },
+  {
+    id: 26,
+    categoryId: 'javascript',
+    title: '얕은 복사(Shallow Copy)와 깊은 복사(Deep Copy)의 차이점은 무엇인가요?',
     difficulty: 'medium',
-    tags: ['animation', 'CSS', 'JavaScript', '성능'],
-    intent: '성능 관점에서 애니메이션 구현 방식을 선택할 수 있는지 확인합니다.',
-    keywords: ['GPU 가속', 'transform', 'opacity', 'requestAnimationFrame', 'main thread', 'compositor thread'],
-    hint: '브라우저 렌더링 파이프라인과 연결해서 생각해보세요.',
-    answer: `CSS 애니메이션:
-- transform, opacity 기반 애니메이션은 compositor thread에서 처리
-- main thread 부하 없이 GPU 가속 활용 가능
-- 성능이 좋고 코드가 단순함
-- 복잡한 제어(중간 멈춤, 동적 값 변경)가 어려움
+    tags: ['shallow copy', 'deep copy', '참조', 'JavaScript'],
+    intent: '참조 타입의 동작 방식을 이해하고 실무에서 불변성을 유지하는 방법을 알고 있는지 확인합니다.',
+    keywords: ['참조 타입', '값 타입', '스프레드 연산자', 'JSON', 'structuredClone'],
+    hint: '중첩된 객체가 있을 때 어떻게 동작하는지 생각해보세요.',
+    answer: `얕은 복사는 객체의 최상위 프로퍼티만 복사하고, 중첩된 객체는 참조를 공유합니다.
+깊은 복사는 중첩된 객체까지 완전히 새로운 객체로 복사합니다.
 
-JavaScript 애니메이션:
-- requestAnimationFrame을 활용한 프레임 단위 제어
-- 동적인 값, 복잡한 시퀀스 제어에 유리
-- main thread에서 실행되어 성능 부하 가능성 있음
+얕은 복사 방법:
+- Object.assign({}, obj)
+- 스프레드 연산자 { ...obj }
+- Array.from(), [...arr]
 
-선택 기준:
-- 단순한 전환 효과 → CSS 애니메이션
-- 복잡한 인터랙션, 동적 제어 → JavaScript (requestAnimationFrame)
-- 복잡한 시퀀스 → GSAP 같은 라이브러리 활용`,
+깊은 복사 방법:
+- JSON.parse(JSON.stringify(obj)) — 함수, undefined, 순환 참조 불가
+- structuredClone(obj) — 최신 브라우저 지원, 권장
+- lodash의 _.cloneDeep()
+
+React에서의 활용:
+- 상태 업데이트 시 불변성 유지를 위해 얕은 복사를 주로 사용
+- 중첩이 깊은 경우 immer 라이브러리 활용`,
   },
   {
-    id: 19,
-    categoryId: 'html-css',
-    title: 'CSS 선택자 우선순위(Specificity)에 대해 설명해주세요.',
+    id: 27,
+    categoryId: 'javascript',
+    title: '실행 컨텍스트(Execution Context)란 무엇인가요?',
+    difficulty: 'hard',
+    tags: ['execution context', 'scope', 'hoisting', 'JavaScript'],
+    intent: '자바스크립트 엔진이 코드를 실행하는 내부 동작 원리를 이해하고 있는지 확인합니다.',
+    keywords: ['전역 실행 컨텍스트', '함수 실행 컨텍스트', '콜 스택', '렉시컬 환경', '호이스팅'],
+    hint: '코드 실행 전에 무슨 일이 일어나는지 생각해보세요.',
+    answer: `실행 컨텍스트는 자바스크립트 코드가 실행되는 환경을 추상화한 개념입니다.
+
+구성 요소:
+1. 변수 환경: var 선언, 함수 선언 저장
+2. 렉시컬 환경: let, const 선언, 외부 환경 참조
+3. this 바인딩
+
+종류:
+- 전역 실행 컨텍스트: 코드 실행 시 최초 생성
+- 함수 실행 컨텍스트: 함수 호출 시마다 생성
+- eval 실행 컨텍스트
+
+동작 방식:
+1. 생성 단계: 변수/함수 선언 수집 (호이스팅 발생)
+2. 실행 단계: 코드 순차적 실행
+
+콜 스택:
+- 실행 컨텍스트가 LIFO 방식으로 관리됨
+- 함수 호출 시 push, 종료 시 pop`,
+  },
+  {
+    id: 28,
+    categoryId: 'javascript',
+    title: '모듈 시스템(CommonJS vs ESM)에 대해 설명해주세요.',
     difficulty: 'medium',
-    tags: ['specificity', 'CSS', '선택자'],
-    intent: 'CSS 충돌 상황에서 어떤 스타일이 적용되는지 이해하고 있는지 확인합니다.',
-    keywords: ['인라인 스타일', 'ID 선택자', '클래스 선택자', '태그 선택자', '!important'],
-    hint: '우선순위를 숫자로 계산하는 방법을 생각해보세요.',
-    answer: `CSS 우선순위는 선택자의 종류에 따라 결정됩니다.
+    tags: ['CommonJS', 'ESM', '모듈', 'JavaScript'],
+    intent: '자바스크립트 모듈 시스템의 차이를 이해하고 실무에서 올바르게 사용할 수 있는지 확인합니다.',
+    keywords: ['require', 'module.exports', 'import', 'export', '정적 분석', 'Tree shaking'],
+    hint: '정적 vs 동적 로딩의 차이가 어떤 이점을 만드는지 생각해보세요.',
+    answer: `CommonJS와 ESM(ES Modules)은 자바스크립트의 두 가지 모듈 시스템입니다.
 
-우선순위 (높은 순):
-1. !important
-2. 인라인 스타일 (style="...")
-3. ID 선택자 (#id)
-4. 클래스, 속성, 가상 클래스 선택자 (.class, [attr], :hover)
-5. 태그, 가상 요소 선택자 (div, ::before)
-6. 전체 선택자 (*)
+CommonJS:
+- Node.js에서 기본으로 사용
+- require(), module.exports 문법
+- 동적 로딩 (런타임에 모듈 결정)
+- 동기적으로 동작
 
-계산 방식:
-- (인라인, ID, 클래스, 태그) 순으로 (0,0,0,0) 형태로 계산
-- 예: #nav .item span → (0,1,1,1)
+ESM:
+- 브라우저와 최신 Node.js 지원
+- import, export 문법
+- 정적 분석 가능 (빌드 타임에 의존성 파악)
+- 비동기적으로 동작
+- Tree shaking 가능
 
-주의할 점:
-- !important는 남발하면 유지보수가 어려워짐
-- 동일 우선순위면 나중에 선언된 스타일이 적용됨`,
+실무:
+- 프론트엔드: ESM (Vite, Webpack 등 번들러 환경)
+- Node.js 백엔드: CommonJS 또는 ESM (.mjs 확장자)
+- 현재는 ESM이 표준으로 자리잡는 추세`,
   },
   {
-    id: 20,
-    categoryId: 'html-css',
-    title: 'rem과 em의 차이점은 무엇인가요?',
-    difficulty: 'easy',
-    tags: ['rem', 'em', 'CSS', '단위'],
-    intent: '상대 단위를 이해하고 실무에서 적절히 활용할 수 있는지 확인합니다.',
-    keywords: ['루트 요소', '부모 요소', '폰트 크기', '반응형', '접근성'],
-    hint: '기준이 되는 요소가 무엇인지 생각해보세요.',
-    answer: `rem과 em은 모두 상대적인 크기 단위입니다.
+    id: 29,
+    categoryId: 'javascript',
+    title: '제너레이터(Generator)와 이터레이터(Iterator)에 대해 설명해주세요.',
+    difficulty: 'hard',
+    tags: ['generator', 'iterator', 'JavaScript', '비동기'],
+    intent: '고급 자바스크립트 개념을 이해하고 있는지, 실용적인 활용 사례를 알고 있는지 확인합니다.',
+    keywords: ['function*', 'yield', 'next()', 'iterable', '지연 평가'],
+    hint: '제너레이터가 일반 함수와 다른 핵심 차이가 무엇인지 생각해보세요.',
+    answer: `이터레이터는 next() 메서드를 통해 순차적으로 값을 반환하는 객체입니다.
+제너레이터는 이터레이터를 쉽게 만들 수 있는 특별한 함수입니다.
 
-em:
-- 부모 요소의 font-size를 기준으로 계산
-- 중첩될수록 크기가 복잡해질 수 있음
-- 컴포넌트 내부의 상대적 크기 조절에 유용
+제너레이터 특징:
+- function* 키워드로 선언
+- yield로 값을 하나씩 반환하고 실행을 일시 중단
+- next() 호출 시 다음 yield까지 실행
 
-rem (root em):
-- 루트 요소(html)의 font-size를 기준으로 계산
-- 기본값은 16px
-- 일관된 크기 관리가 가능해 유지보수에 유리
+활용 사례:
+1. 지연 평가: 필요한 시점에만 값 생성 (무한 시퀀스 등)
+2. 비동기 제어 흐름: async/await 이전에 활용
+3. 상태 머신 구현
 
-실무 활용:
-- 전체 레이아웃, 폰트 크기 → rem
-- 특정 컴포넌트 내부 → em
-- 접근성 측면에서 px보다 rem 권장 (사용자 브라우저 설정 반영)`,
-  },
-  {
-    id: 21,
-    categoryId: 'html-css',
-    title: 'CSS 변수(Custom Properties)란 무엇이고 어떻게 활용하나요?',
-    difficulty: 'easy',
-    tags: ['CSS 변수', 'Custom Properties', '유지보수'],
-    intent: '현대적인 CSS 작성 방식을 알고 있는지, 유지보수 관점에서 활용할 수 있는지 확인합니다.',
-    keywords: ['--변수명', 'var()', ':root', '재사용성', '동적 변경'],
-    hint: 'JavaScript와 연동해서 동적으로 변경할 수 있다는 점도 생각해보세요.',
-    answer: `CSS 변수(Custom Properties)는 CSS에서 값을 변수로 정의하고 재사용할 수 있는 기능입니다.
-
-선언과 사용:
-- :root { --primary-color: #F97316; }
-- color: var(--primary-color);
-
-장점:
-- 디자인 토큰 관리에 효과적 (색상, 간격, 폰트 등)
-- 한 곳에서 수정하면 전체 반영
-- JavaScript로 동적 변경 가능
-- 미디어 쿼리 안에서 재정의 가능
-
-Sass 변수와의 차이:
-- CSS 변수는 런타임에 동작 (동적 변경 가능)
-- Sass 변수는 컴파일 타임에 처리 (정적)
-
-실무에서는 다크모드, 테마 변경 등에 특히 유용합니다.`,
-  },
-  {
-    id: 22,
-    categoryId: 'html-css',
-    title: '반응형 웹 디자인이란 무엇이고, 어떻게 구현하나요?',
-    difficulty: 'easy',
-    tags: ['반응형', '미디어 쿼리', 'viewport', 'CSS'],
-    intent: '다양한 디바이스 환경에 대응하는 방법을 알고 있는지 확인합니다.',
-    keywords: ['미디어 쿼리', 'viewport', 'fluid layout', 'mobile-first', 'breakpoint'],
-    hint: 'mobile-first 접근 방식이 왜 더 효율적인지 생각해보세요.',
-    answer: `반응형 웹 디자인은 다양한 화면 크기에서 최적의 사용자 경험을 제공하는 디자인 방식입니다.
-
-핵심 기술:
-1. 미디어 쿼리: 화면 크기에 따라 다른 스타일 적용
-2. 유동적 레이아웃: % 단위, flexbox, grid 활용
-3. 유동적 이미지: max-width: 100% 설정
-4. viewport 메타 태그: <meta name="viewport" content="width=device-width">
-
-Mobile-First 접근:
-- 모바일 스타일을 기본으로 작성
-- min-width 미디어 쿼리로 점진적 확장
-- 성능 측면에서 유리 (모바일에서 불필요한 CSS 로드 방지)
-
-주요 breakpoint:
-- 모바일: ~768px
-- 태블릿: 768px~1024px
-- 데스크탑: 1024px~`,
-  },
-  {
-    id: 23,
-    categoryId: 'html-css',
-    title: 'CSS에서 margin 겹침(Margin Collapsing) 현상이란 무엇인가요?',
-    difficulty: 'medium',
-    tags: ['margin', 'CSS', 'layout'],
-    intent: 'CSS 레이아웃에서 자주 발생하는 예상치 못한 동작을 이해하고 있는지 확인합니다.',
-    keywords: ['수직 마진', '인접 요소', '부모-자식', 'BFC', 'margin collapse'],
-    hint: '수평 방향으로는 왜 발생하지 않는지 생각해보세요.',
-    answer: `Margin Collapsing은 수직 방향의 margin이 겹쳐서 더 큰 값 하나로 합쳐지는 현상입니다.
-
-발생하는 경우:
-1. 인접한 형제 요소: 위 요소의 margin-bottom과 아래 요소의 margin-top이 겹침
-2. 부모-자식 요소: 부모에 border/padding이 없으면 자식의 margin이 부모 밖으로 빠져나옴
-3. 빈 블록 요소: 자기 자신의 margin-top과 margin-bottom이 겹침
-
-해결 방법:
-- 부모에 overflow: hidden 또는 padding, border 추가
-- BFC(Block Formatting Context) 생성
-- flexbox, grid 컨테이너에서는 발생하지 않음
-
-수평 방향으로는 발생하지 않습니다.`,
+이터러블 프로토콜:
+- [Symbol.iterator]() 메서드를 구현한 객체
+- for...of, 스프레드 연산자 등에서 활용 가능`,
   },
 ]
