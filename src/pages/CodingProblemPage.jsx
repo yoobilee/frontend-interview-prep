@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Editor from '@monaco-editor/react'
 import { problems } from '../data/problems'
 import { ArrowLeft, Play, Lightbulb, ChevronDown, CheckCircle, XCircle, Loader } from 'lucide-react'
+import { getAIFeedback } from '../utils/aiFeedback'
+import { MessageSquare, Send } from 'lucide-react'
 
 const DIFFICULTY_COLORS = {
   easy: '#22c55e',
@@ -53,6 +55,9 @@ function CodingProblemPage() {
   const [testResults, setTestResults] = useState([])
   const [isRunning, setIsRunning] = useState(false)
   const [activeTab, setActiveTab] = useState('problem')
+  const [feedback, setFeedback] = useState('')
+  const [isFeedbackLoading, setIsFeedbackLoading] = useState(false)
+  const [feedbackError, setFeedbackError] = useState('')
 
   if (!problem) return (
     <div style={{ color: 'var(--text-secondary)', textAlign: 'center', paddingTop: '80px' }}>
@@ -412,6 +417,144 @@ function CodingProblemPage() {
                         </div>
                       </div>
                     ))}
+                    {/* AI 코드 피드백 */}
+                    <div style={{
+                      marginTop: '16px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '10px',
+                      padding: '16px',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                        <MessageSquare size={13} color={difficultyColor} />
+                        <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                          AI 코드 피드백
+                        </p>
+                      </div>
+                      <button
+                        onClick={async () => {
+                          const model = localStorage.getItem('ai_model') || 'claude'
+                          const apiKey = localStorage.getItem(`api_key_${model}`) || ''
+                          if (!apiKey) {
+                            setFeedbackError('설정 페이지에서 API 키를 먼저 입력해주세요.')
+                            return
+                          }
+                          setIsFeedbackLoading(true)
+                          setFeedback('')
+                          setFeedbackError('')
+                          try {
+                            const prompt = `당신은 코딩 테스트 전문 면접관입니다. 다음 문제에 대한 지원자의 코드를 평가해주세요.
+
+문제: ${problem.title}
+난이도: ${problem.difficulty}
+언어: ${selectedLanguage}
+
+지원자 코드:
+${code}
+
+테스트 결과: ${testResults.filter(r => r.passed).length}/${testResults.length} 통과
+
+다음 형식으로 피드백을 제공해주세요:
+
+**종합 평가** (상/중/하)
+한 줄 요약
+
+**코드 품질**
+- 가독성, 변수명, 구조 등
+
+**시간/공간 복잡도**
+- 현재 코드의 복잡도 분석
+
+**개선 방향**
+- 더 효율적이거나 깔끔한 방법
+
+**잘한 점**
+- 구체적인 내용`
+
+                            const result = await fetch(
+                              model === 'gemini'
+                                ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+                                : model === 'gpt'
+                                  ? 'https://api.openai.com/v1/chat/completions'
+                                  : 'https://api.anthropic.com/v1/messages',
+                              {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  ...(model === 'claude' && { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }),
+                                  ...(model === 'gpt' && { 'Authorization': `Bearer ${apiKey}` }),
+                                },
+                                body: JSON.stringify(
+                                  model === 'gemini'
+                                    ? { contents: [{ parts: [{ text: prompt }] }] }
+                                    : model === 'gpt'
+                                      ? { model: 'gpt-4', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] }
+                                      : { model: 'claude-opus-4-5', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] }
+                                ),
+                              }
+                            )
+                            const data = await result.json()
+                            if (data.error) throw new Error(data.error.message)
+                            const text = model === 'gemini'
+                              ? data.candidates[0].content.parts[0].text
+                              : model === 'gpt'
+                                ? data.choices[0].message.content
+                                : data.content[0].text
+                            setFeedback(text)
+                          } catch (e) {
+                            setFeedbackError('피드백을 불러오는 중 오류가 발생했습니다.')
+                          }
+                          setIsFeedbackLoading(false)
+                        }}
+                        disabled={isFeedbackLoading}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '8px 16px',
+                          backgroundColor: isFeedbackLoading ? 'var(--bg-elevated)' : difficultyColor,
+                          color: isFeedbackLoading ? 'var(--text-muted)' : '#fff',
+                          border: 'none',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          fontWeight: 600,
+                          cursor: isFeedbackLoading ? 'not-allowed' : 'pointer',
+                          transition: 'all 0.15s',
+                          width: '100%',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {isFeedbackLoading ? <Loader size={13} /> : <Send size={13} />}
+                        {isFeedbackLoading ? 'AI 분석 중...' : '내 코드 AI 피드백 받기'}
+                      </button>
+
+                      {feedbackError && (
+                        <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '10px' }}>
+                          {feedbackError}
+                        </p>
+                      )}
+
+                      {feedback && (
+                        <div style={{
+                          marginTop: '12px',
+                          padding: '16px',
+                          backgroundColor: 'var(--bg-elevated)',
+                          border: `1px solid ${difficultyColor}33`,
+                          borderRadius: '8px',
+                        }}>
+                          <pre style={{
+                            fontSize: '13px',
+                            color: 'var(--text-secondary)',
+                            lineHeight: 1.8,
+                            whiteSpace: 'pre-wrap',
+                            fontFamily: 'inherit',
+                            margin: 0,
+                          }}>
+                            {feedback}
+                          </pre>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
