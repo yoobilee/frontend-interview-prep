@@ -473,7 +473,7 @@ ${code}
 
                             const result = await fetch(
                               model === 'gemini'
-                                ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+                                ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`
                                 : model === 'gpt'
                                   ? 'https://api.openai.com/v1/chat/completions'
                                   : 'https://api.anthropic.com/v1/messages',

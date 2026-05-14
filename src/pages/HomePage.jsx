@@ -159,8 +159,7 @@ function HomePage() {
           maxWidth: '480px',
           marginBottom: '48px',
         }}>
-          면접은 준비한 만큼 말할 수 있습니다.<br />
-          실전처럼 연습하고, 부족한 부분을 북마크하세요.
+          면접 질문부터 코딩 테스트까지, 실전처럼 준비하세요.
         </p>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px', justifyContent: 'center' }}>
