@@ -7,6 +7,7 @@ import BookmarksPage from './pages/BookmarksPage'
 import QuestionDetailPage from './pages/QuestionDetailPage'
 import CodingTestPage from './pages/CodingTestPage'
 import CodingProblemPage from './pages/CodingProblemPage'
+import SettingsPage from './pages/SettingsPage'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/questions/:id" element={<Layout><QuestionDetailPage /></Layout>} />
         <Route path="/coding" element={<Layout><CodingTestPage /></Layout>} />
         <Route path="/coding/:id" element={<Layout><CodingProblemPage /></Layout>} />
+        <Route path="/settings" element={<Layout><SettingsPage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )
