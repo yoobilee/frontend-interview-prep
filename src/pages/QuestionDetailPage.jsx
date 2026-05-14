@@ -6,6 +6,8 @@ import {
   ArrowLeft, Lightbulb, FileText, Bookmark, BookmarkCheck,
   Target, Key, CheckSquare, Link, ChevronDown
 } from 'lucide-react'
+import { getAIFeedback } from '../utils/aiFeedback'
+import { MessageSquare, Send, Loader } from 'lucide-react'
 
 const DIFFICULTY_COLORS = {
   easy: '#22c55e',
@@ -35,6 +37,10 @@ function QuestionDetailPage() {
   const [showAnswer, setShowAnswer] = useState(false)
   const [checkedKeywords, setCheckedKeywords] = useState([])
   const { toggleBookmark, isBookmarked } = useBookmarkStore()
+  const [userAnswer, setUserAnswer] = useState('')
+  const [feedback, setFeedback] = useState('')
+  const [isFeedbackLoading, setIsFeedbackLoading] = useState(false)
+  const [feedbackError, setFeedbackError] = useState('')
 
   const question = questions.find(q => q.id === Number(id))
   const currentIndex = questions.findIndex(q => q.id === Number(id))
@@ -357,6 +363,118 @@ function QuestionDetailPage() {
               margin: 0,
             }}>
               {question.answer}
+            </pre>
+          </div>
+        )}
+      </div>
+
+      {/* AI 피드백 */}
+      <div style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        padding: '20px 24px',
+        marginBottom: '16px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          <MessageSquare size={14} color={categoryColor} />
+          <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+            내 답변 작성
+          </p>
+          <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+            AI 피드백을 받아보세요
+          </span>
+        </div>
+
+        <textarea
+          value={userAnswer}
+          onChange={e => setUserAnswer(e.target.value)}
+          placeholder="면접관 앞에서 답변하듯이 작성해보세요..."
+          style={{
+            width: '100%',
+            minHeight: '140px',
+            padding: '14px',
+            backgroundColor: 'var(--bg-elevated)',
+            border: `1px solid ${userAnswer ? categoryColor + '55' : 'var(--border)'}`,
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: 'var(--text-primary)',
+            lineHeight: 1.7,
+            resize: 'vertical',
+            outline: 'none',
+            fontFamily: 'inherit',
+            boxSizing: 'border-box',
+            transition: 'border-color 0.15s',
+          }}
+        />
+
+        <button
+          onClick={async () => {
+            if (!userAnswer.trim()) return
+            const model = localStorage.getItem('ai_model') || 'claude'
+            const apiKey = localStorage.getItem(`api_key_${model}`) || ''
+            if (!apiKey) {
+              setFeedbackError('설정 페이지에서 API 키를 먼저 입력해주세요.')
+              return
+            }
+            setIsFeedbackLoading(true)
+            setFeedback('')
+            setFeedbackError('')
+            try {
+              const result = await getAIFeedback({ model, apiKey, question, userAnswer })
+              setFeedback(result)
+            } catch (e) {
+              setFeedbackError('피드백을 불러오는 중 오류가 발생했습니다. API 키를 확인해주세요.')
+            }
+            setIsFeedbackLoading(false)
+          }}
+          disabled={!userAnswer.trim() || isFeedbackLoading}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginTop: '12px',
+            padding: '10px 20px',
+            backgroundColor: !userAnswer.trim() || isFeedbackLoading ? 'var(--bg-elevated)' : categoryColor,
+            color: !userAnswer.trim() || isFeedbackLoading ? 'var(--text-muted)' : '#fff',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '13px',
+            fontWeight: 600,
+            cursor: !userAnswer.trim() || isFeedbackLoading ? 'not-allowed' : 'pointer',
+            transition: 'all 0.15s',
+          }}
+        >
+          {isFeedbackLoading ? <Loader size={14} /> : <Send size={14} />}
+          {isFeedbackLoading ? 'AI 분석 중...' : 'AI 피드백 받기'}
+        </button>
+
+        {feedbackError && (
+          <p style={{ fontSize: '13px', color: '#ef4444', marginTop: '12px' }}>
+            {feedbackError}
+          </p>
+        )}
+
+        {feedback && (
+          <div style={{
+            marginTop: '16px',
+            padding: '20px',
+            backgroundColor: 'var(--bg-elevated)',
+            border: `1px solid ${categoryColor}33`,
+            borderRadius: '10px',
+          }}>
+            <p style={{ fontSize: '12px', fontWeight: 600, color: categoryColor, marginBottom: '12px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              AI 피드백
+            </p>
+            <pre style={{
+              fontSize: '14px',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.8,
+              whiteSpace: 'pre-wrap',
+              fontFamily: 'inherit',
+              margin: 0,
+            }}>
+              {feedback}
             </pre>
           </div>
         )}
