@@ -72,9 +72,12 @@ function SetupScreen({ onStart }) {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <div style={{ marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
-          연습 모드
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <Timer size={20} color='var(--point)' />
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            연습 모드
+          </h1>
+        </div>
         <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
           원하는 조건으로 면접 질문을 연습해보세요
         </p>

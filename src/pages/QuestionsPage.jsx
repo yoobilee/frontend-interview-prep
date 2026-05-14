@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { questions, categories } from '../data/questions/index'
+import { BookOpen } from 'lucide-react'
 
 const DIFFICULTIES = [
   { id: 'all', label: '전체' },
@@ -44,10 +45,13 @@ function QuestionsPage() {
   return (
     <div>
       {/* 헤더 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '6px' }}>
-          질문 목록
-        </h1>
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <BookOpen size={20} color='var(--point)' />
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            질문 목록
+          </h1>
+        </div>
         <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
           {filtered.length}개의 질문
         </p>

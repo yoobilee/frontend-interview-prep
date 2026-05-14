@@ -33,8 +33,8 @@ function Layout({ children }) {
           <nav style={{ display: 'flex', gap: '32px' }}>
             {[
               { to: '/questions', label: '질문 목록' },
-              { to: '/practice', label: '연습 모드' },
               { to: '/coding', label: '코딩 테스트' },
+              { to: '/practice', label: '연습 모드' },
               { to: '/bookmarks', label: '북마크' },
             ].map(({ to, label }) => (
               <NavLink
