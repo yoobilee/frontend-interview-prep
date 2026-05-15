@@ -8,7 +8,6 @@ import QuestionDetailPage from './pages/QuestionDetailPage'
 import CodingTestPage from './pages/CodingTestPage'
 import CodingProblemPage from './pages/CodingProblemPage'
 import SettingsPage from './pages/SettingsPage'
-import SuggestPage from './pages/SuggestPage'
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
         <Route path="/coding" element={<Layout><CodingTestPage /></Layout>} />
         <Route path="/coding/:id" element={<Layout><CodingProblemPage /></Layout>} />
         <Route path="/settings" element={<Layout><SettingsPage /></Layout>} />
-        <Route path="/suggest" element={<Layout><SuggestPage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )
