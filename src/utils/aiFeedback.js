@@ -76,6 +76,23 @@ ${userAnswer}
     const data = await res.json()
     if (data.error) throw new Error(data.error.message)
     return data.candidates[0].content.parts[0].text
+
+  } else if (model === 'groq') {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    })
+    const data = await res.json()
+    if (data.error) throw new Error(data.error.message)
+    return data.choices[0].message.content
   }
 
   throw new Error('지원하지 않는 모델입니다.')

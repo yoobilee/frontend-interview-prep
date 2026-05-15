@@ -20,6 +20,12 @@ const AI_MODELS = [
     description: 'Google의 AI 모델. 최신 정보에 강합니다.',
     placeholder: 'AIza...',
   },
+  {
+    id: 'groq',
+    name: 'Groq',
+    description: '무료로 사용 가능한 초고속 AI 모델. Llama 3.3 70B 기반입니다.',
+    placeholder: 'gsk_...',
+  },
 ]
 
 function SettingsPage() {

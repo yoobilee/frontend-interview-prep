@@ -53,6 +53,7 @@ Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 
 ![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=white)
 
 </div>
 
@@ -97,7 +98,7 @@ src/
 - [x] 코딩 테스트 (Monaco Editor, Judge0 API, 20개 문제)
 - [x] AI 피드백 (Claude, GPT-4, Gemini 지원)
 - [x] Vercel 배포
-- [ ] 사용자 질문 제보
+- [x] 사용자 질문 제보 (AI 자동 모범 답변 생성)
 - [ ] 기업별 필터 (네카라쿠배 등)
 
 <br />
