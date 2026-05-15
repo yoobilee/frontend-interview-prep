@@ -32,6 +32,24 @@ const CATEGORY_COLORS = {
   'performance': '#fb923c',
 }
 
+const COMPANY_LABELS = {
+  naver: '네이버',
+  kakao: '카카오',
+  line: '라인',
+  coupang: '쿠팡',
+  baemin: '배민',
+  toss: '토스',
+}
+
+const COMPANY_COLORS = {
+  naver: '#03C75A',
+  kakao: '#FEE500',
+  line: '#06C755',
+  coupang: '#FECC00',
+  baemin: '#2AC1BC',
+  toss: '#0064FF',
+}
+
 function QuestionsPage() {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -47,6 +65,7 @@ function QuestionsPage() {
     const difficultyMatch = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty
     return categoryMatch && difficultyMatch
   })
+
   if (loading) return (
     <div style={{ textAlign: 'center', paddingTop: '80px', color: 'var(--text-secondary)' }}>
       불러오는 중...
@@ -214,6 +233,25 @@ function QuestionsPage() {
                   }}>
                     {DIFFICULTY_LABELS[q.difficulty]}
                   </span>
+                  {/* 기업 배지 */}
+                  {q.company?.length > 0 && (
+                    <>
+                      <span style={{ color: 'var(--border)', fontSize: '11px' }}>·</span>
+                      {q.company.map(c => (
+                        <span key={c} style={{
+                          fontSize: '10px',
+                          fontWeight: 700,
+                          color: COMPANY_COLORS[c] || 'var(--text-secondary)',
+                          backgroundColor: (COMPANY_COLORS[c] || '#888') + '15',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          border: `1px solid ${(COMPANY_COLORS[c] || '#888') + '44'}`,
+                        }}>
+                          {COMPANY_LABELS[c] || c}
+                        </span>
+                      ))}
+                    </>
+                  )}
                 </div>
 
                 <p style={{
@@ -226,7 +264,7 @@ function QuestionsPage() {
                   {q.title}
                 </p>
 
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
                   {q.tags.map(tag => (
                     <span key={tag} style={{
                       fontSize: '11px',

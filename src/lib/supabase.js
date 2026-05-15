@@ -23,5 +23,6 @@ export async function fetchQuestions() {
     keywords: q.keywords,
     hint: q.hint,
     answer: q.answer,
+    company: q.company || [],
   }))
 }
