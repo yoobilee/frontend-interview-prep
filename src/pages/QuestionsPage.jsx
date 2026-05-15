@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { questions, categories } from '../data/questions/index'
+import { categories } from '../data/questions/index'
+import useQuestionsStore from '../store/questionsStore'
 import { BookOpen } from 'lucide-react'
 
 const DIFFICULTIES = [
@@ -35,12 +36,22 @@ function QuestionsPage() {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
+  const { questions, loading, fetchIfNeeded } = useQuestionsStore()
+
+  useEffect(() => {
+    fetchIfNeeded()
+  }, [])
 
   const filtered = questions.filter(q => {
     const categoryMatch = selectedCategory === 'all' || q.categoryId === selectedCategory
     const difficultyMatch = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty
     return categoryMatch && difficultyMatch
   })
+  if (loading) return (
+    <div style={{ textAlign: 'center', paddingTop: '80px', color: 'var(--text-secondary)' }}>
+      불러오는 중...
+    </div>
+  )
 
   return (
     <div>

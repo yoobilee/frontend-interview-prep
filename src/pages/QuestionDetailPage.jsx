@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { questions, categories } from '../data/questions/index'
+import { useState, useEffect } from 'react'
+import { categories } from '../data/questions/index'
+import useQuestionsStore from '../store/questionsStore'
 import useBookmarkStore from '../store/bookmarkStore'
 import {
   ArrowLeft, Lightbulb, FileText, Bookmark, BookmarkCheck,
@@ -41,6 +42,11 @@ function QuestionDetailPage() {
   const [feedback, setFeedback] = useState('')
   const [isFeedbackLoading, setIsFeedbackLoading] = useState(false)
   const [feedbackError, setFeedbackError] = useState('')
+  const { questions, fetchIfNeeded } = useQuestionsStore()
+
+  useEffect(() => {
+    fetchIfNeeded()
+  }, [])
 
   const question = questions.find(q => q.id === Number(id))
   const currentIndex = questions.findIndex(q => q.id === Number(id))

@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { questions, categories } from '../data/questions/index'
+import { categories } from '../data/questions/index'
+import useQuestionsStore from '../store/questionsStore'
 import useBookmarkStore from '../store/bookmarkStore'
 import { Bookmark, BookmarkCheck } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 const DIFFICULTY_COLORS = {
   easy: '#22c55e',
@@ -27,6 +29,11 @@ const CATEGORY_COLORS = {
 function BookmarksPage() {
   const navigate = useNavigate()
   const { bookmarks, toggleBookmark } = useBookmarkStore()
+  const { questions, fetchIfNeeded } = useQuestionsStore()
+
+  useEffect(() => {
+    fetchIfNeeded()
+  }, [])
 
   const bookmarkedQuestions = questions.filter(q => bookmarks.includes(q.id))
 

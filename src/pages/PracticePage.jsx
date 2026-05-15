@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { questions, categories } from '../data/questions/index'
 import { Timer, ChevronDown, Lightbulb, FileText, RotateCcw, CheckCircle, Key, CheckSquare } from 'lucide-react'
 import { getAIFeedback } from '../utils/aiFeedback'
 import { MessageSquare, Send } from 'lucide-react'
+import { categories } from '../data/questions/index'
+import useQuestionsStore from '../store/questionsStore'
 
 const CATEGORY_COLORS = {
   'html-css': '#60a5fa',
@@ -40,6 +41,11 @@ function SetupScreen({ onStart }) {
   const [questionCount, setQuestionCount] = useState(5)
   const [timerEnabled, setTimerEnabled] = useState(false)
   const [timerSeconds, setTimerSeconds] = useState(60)
+  const { questions, fetchIfNeeded } = useQuestionsStore()
+
+  useEffect(() => {
+    fetchIfNeeded()
+  }, [])
 
   const filtered = questions.filter(q => {
     const c = selectedCategory === 'all' || q.categoryId === selectedCategory
