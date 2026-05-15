@@ -5,10 +5,10 @@ import useQuestionsStore from '../store/questionsStore'
 import useBookmarkStore from '../store/bookmarkStore'
 import {
   ArrowLeft, Lightbulb, FileText, Bookmark, BookmarkCheck,
-  Target, Key, CheckSquare, Link, ChevronDown
+  Target, Key, CheckSquare, Link, ChevronDown, Building2,
+  MessageSquare, Send, Loader
 } from 'lucide-react'
 import { getAIFeedback } from '../utils/aiFeedback'
-import { MessageSquare, Send, Loader } from 'lucide-react'
 
 const DIFFICULTY_COLORS = {
   easy: '#22c55e',
@@ -20,6 +20,24 @@ const DIFFICULTY_LABELS = {
   easy: '쉬움',
   medium: '보통',
   hard: '어려움',
+}
+
+const COMPANY_LABELS = {
+  naver: '네이버',
+  kakao: '카카오',
+  line: '라인',
+  coupang: '쿠팡',
+  baemin: '배민',
+  toss: '토스',
+}
+
+const COMPANY_COLORS = {
+  naver: '#03C75A',
+  kakao: '#FEE500',
+  line: '#06C755',
+  coupang: '#FECC00',
+  baemin: '#2AC1BC',
+  toss: '#0064FF',
 }
 
 const CATEGORY_COLORS = {
@@ -171,6 +189,23 @@ function QuestionDetailPage() {
             border: '1px solid var(--border)',
           }}>
             {tag}
+          </span>
+        ))}
+        {question.company?.map(c => (
+          <span key={c} style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            fontSize: '11px',
+            fontWeight: 700,
+            color: COMPANY_COLORS[c] || 'var(--text-secondary)',
+            backgroundColor: (COMPANY_COLORS[c] || '#888') + '15',
+            padding: '3px 10px',
+            borderRadius: '4px',
+            border: `1px solid ${(COMPANY_COLORS[c] || '#888') + '44'}`,
+          }}>
+            <Building2 size={10} />
+            {COMPANY_LABELS[c] || c} 기출
           </span>
         ))}
       </div>
