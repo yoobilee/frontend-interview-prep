@@ -1,19 +1,13 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Settings, Lightbulb, X, Send } from 'lucide-react'
-import { categories } from '../data/questions/index'
 import { supabase } from '../lib/supabase'
-
-const DIFFICULTIES = [
-  { id: 'easy', label: '쉬움', color: '#22c55e' },
-  { id: 'medium', label: '보통', color: '#f97316' },
-  { id: 'hard', label: '어려움', color: '#ef4444' },
-]
+import { generateQuestionData } from '../utils/generateAnswer'
 
 function Layout({ children }) {
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
-  const [form, setForm] = useState({ title: '', category_id: 'html-css', difficulty: 'easy' })
+  const [form, setForm] = useState({ title: '' })
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -25,16 +19,30 @@ function Layout({ children }) {
     }
     setLoading(true)
     setError('')
-    const { error } = await supabase.from('suggestions').insert({
-      title: form.title.trim(),
-      category_id: form.category_id,
-      difficulty: form.difficulty,
-      submitter: '익명',
-    })
-    if (error) {
-      setError('오류가 발생했습니다. 다시 시도해주세요.')
-    } else {
-      setSubmitted(true)
+
+    try {
+      // Groq API로 자동 생성
+      const generated = await generateQuestionData(form.title)
+
+      // Supabase에 저장
+      const { error } = await supabase.from('suggestions').insert({
+        title: form.title.trim(),
+        category_id: generated.category_id,
+        difficulty: generated.difficulty,
+        intent: generated.intent,
+        keywords: generated.keywords,
+        hint: generated.hint,
+        answer: generated.answer,
+        submitter: '익명',
+      })
+
+      if (error) {
+        setError('제보 중 오류가 발생했습니다. 다시 시도해주세요.')
+      } else {
+        setSubmitted(true)
+      }
+    } catch (e) {
+      setError('AI 생성 중 오류가 발생했습니다. 다시 시도해주세요.')
     }
     setLoading(false)
   }
@@ -42,7 +50,7 @@ function Layout({ children }) {
   const handleClose = () => {
     setShowModal(false)
     setSubmitted(false)
-    setForm({ title: '', category_id: 'html-css', difficulty: 'easy' })
+    setForm({ title: '' })
     setError('')
   }
 
@@ -262,88 +270,6 @@ function Layout({ children }) {
                       transition: 'border-color 0.15s',
                     }}
                   />
-                </div>
-
-                {/* 카테고리 */}
-                <div style={{ marginBottom: '20px' }}>
-                  <p style={{
-                    fontSize: '11px', fontWeight: 700,
-                    color: 'var(--text-secondary)',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    marginBottom: '8px',
-                  }}>
-                    카테고리
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {categories.map(cat => {
-                      const isActive = form.category_id === cat.id
-                      return (
-                        <button
-                          key={cat.id}
-                          onClick={() => setForm(prev => ({ ...prev, category_id: cat.id }))}
-                          style={{
-                            padding: '6px 14px',
-                            fontSize: '12px',
-                            fontWeight: isActive ? 600 : 400,
-                            color: isActive ? 'var(--point)' : 'var(--text-secondary)',
-                            backgroundColor: isActive ? 'rgba(249,115,22,0.1)' : 'var(--bg-elevated)',
-                            border: `1px solid ${isActive ? 'var(--point)' : 'var(--border)'}`,
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            transition: 'all 0.15s',
-                          }}
-                        >
-                          {cat.label}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* 난이도 */}
-                <div style={{ marginBottom: '24px' }}>
-                  <p style={{
-                    fontSize: '11px', fontWeight: 700,
-                    color: 'var(--text-secondary)',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    marginBottom: '8px',
-                  }}>
-                    난이도
-                  </p>
-                  <div style={{
-                    display: 'flex',
-                    backgroundColor: 'var(--bg-elevated)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
-                    padding: '3px',
-                    gap: '2px',
-                  }}>
-                    {DIFFICULTIES.map(diff => {
-                      const isActive = form.difficulty === diff.id
-                      return (
-                        <button
-                          key={diff.id}
-                          onClick={() => setForm(prev => ({ ...prev, difficulty: diff.id }))}
-                          style={{
-                            flex: 1,
-                            padding: '7px 12px',
-                            fontSize: '12px',
-                            fontWeight: isActive ? 600 : 400,
-                            color: isActive ? diff.color : 'var(--text-secondary)',
-                            backgroundColor: isActive ? 'var(--bg-surface)' : 'transparent',
-                            border: `1px solid ${isActive ? diff.color + '55' : 'transparent'}`,
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            transition: 'all 0.15s',
-                          }}
-                        >
-                          {diff.label}
-                        </button>
-                      )
-                    })}
-                  </div>
                 </div>
 
                 {error && (
