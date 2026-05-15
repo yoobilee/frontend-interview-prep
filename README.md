@@ -52,6 +52,7 @@ Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
 </div>
 
@@ -60,8 +61,8 @@ Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 
 ## 💡 설계 의도
 
 **데이터 구조**  
-질문 데이터는 카테고리별 JS 파일로 분리해 관리합니다.  
-현재는 정적 파일 기반이지만, 추후 Supabase 연동으로 확장 가능한 구조로 설계했습니다.
+질문 데이터는 Supabase(PostgreSQL)로 관리합니다.  
+100개의 질문이 카테고리별로 구성되어 있으며, Zustand로 클라이언트 캐싱해 불필요한 재요청을 방지합니다.
 
 **상태 관리**  
 북마크는 Zustand + localStorage로 관리해 새로고침 후에도 유지됩니다.  
@@ -77,12 +78,12 @@ Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 
 
 ```
 src/
-├── components/       # 공통 컴포넌트 (Layout, Header)
+├── components/       # 공통 컴포넌트 (Layout)
 ├── pages/            # 페이지 컴포넌트
-├── data/
-│   └── questions/    # 카테고리별 질문 데이터
+├── data/             # 카테고리 메타데이터
+├── lib/              # Supabase 클라이언트
 ├── store/            # Zustand 스토어
-└── styles/           # 전역 스타일
+└── utils/            # AI 피드백 유틸
 ```
 
 <br />
