@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { categories } from '../data/questions/index'
 import useQuestionsStore from '../store/questionsStore'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, Search } from 'lucide-react'
 
 const DIFFICULTIES = [
   { id: 'all', label: '전체' },
@@ -54,6 +54,7 @@ function QuestionsPage() {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
   const { questions, loading, fetchIfNeeded } = useQuestionsStore()
 
   useEffect(() => {
@@ -63,7 +64,10 @@ function QuestionsPage() {
   const filtered = questions.filter(q => {
     const categoryMatch = selectedCategory === 'all' || q.categoryId === selectedCategory
     const difficultyMatch = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty
-    return categoryMatch && difficultyMatch
+    const searchMatch = searchQuery === '' ||
+      q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      q.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    return categoryMatch && difficultyMatch && searchMatch
   })
 
   if (loading) return (
@@ -85,6 +89,40 @@ function QuestionsPage() {
         <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
           {filtered.length}개의 질문
         </p>
+      </div>
+
+      {/* 검색 */}
+      <div style={{
+        position: 'relative',
+        marginBottom: '24px',
+      }}>
+        <Search size={15} color='var(--text-muted)' style={{
+          position: 'absolute',
+          left: '14px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          pointerEvents: 'none',
+        }} />
+        <input
+          type='text'
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          placeholder='질문 또는 태그로 검색...'
+          style={{
+            width: '100%',
+            padding: '10px 14px 10px 38px',
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: 'var(--text-primary)',
+            outline: 'none',
+            boxSizing: 'border-box',
+            transition: 'border-color 0.15s',
+          }}
+          onFocus={e => e.target.style.borderColor = 'var(--point)'}
+          onBlur={e => e.target.style.borderColor = 'var(--border)'}
+        />
       </div>
 
       {/* 필터 영역 */}
