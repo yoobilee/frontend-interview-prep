@@ -860,6 +860,68 @@ function ResultScreen({ result, onRestart }) {
         </div>
       )}
 
+      {/* 풀었던 질문 목록 */}
+      <div style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        borderRadius: '14px',
+        padding: '24px',
+        marginBottom: '32px',
+        textAlign: 'left',
+      }}>
+        <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '16px', letterSpacing: '0.05em' }}>
+          풀었던 질문 ({sessionQuestions.length}개)
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {sessionQuestions.map((q, i) => {
+            const categoryColor = CATEGORY_COLORS[q.categoryId] || 'var(--point)'
+            return (
+              <div
+                key={q.id}
+                onClick={() => navigate(`/questions/${q.id}`)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 16px',
+                  backgroundColor: 'var(--bg-elevated)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = categoryColor}
+                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+              >
+                <span style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: 'var(--text-muted)',
+                  minWidth: '20px',
+                }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div style={{
+                  width: '6px', height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: categoryColor,
+                  flexShrink: 0,
+                }} />
+                <p style={{
+                  fontSize: '13px',
+                  color: 'var(--text-primary)',
+                  flex: 1,
+                  lineHeight: 1.4,
+                }}>
+                  {q.title}
+                </p>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>→</span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
       {/* 버튼들 */}
       <div style={{ display: 'flex', gap: '12px' }}>
         <button
