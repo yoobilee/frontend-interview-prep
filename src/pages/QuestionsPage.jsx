@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { categories } from '../data/questions/index'
 import useQuestionsStore from '../store/questionsStore'
 import { BookOpen, Search } from 'lucide-react'
+import { QuestionListSkeleton } from '../components/Skeleton'
 
 const DIFFICULTIES = [
   { id: 'all', label: '전체' },
@@ -71,8 +72,16 @@ function QuestionsPage() {
   })
 
   if (loading) return (
-    <div style={{ textAlign: 'center', paddingTop: '80px', color: 'var(--text-secondary)' }}>
-      불러오는 중...
+    <div>
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <BookOpen size={20} color='var(--point)' />
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            질문 목록
+          </h1>
+        </div>
+      </div>
+      <QuestionListSkeleton />
     </div>
   )
 
