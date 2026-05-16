@@ -34,7 +34,11 @@ AI 피드백으로 코드 품질과 개선 방향을 받아볼 수 있습니다.
 
 **AI 피드백**  
 면접 질문 답변, 연습 모드, 코딩 테스트에서 AI 피드백을 받을 수 있습니다.  
-Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 사용할 수 있습니다.
+Claude, GPT-4, Gemini, Groq 중 원하는 모델을 선택하고 API 키를 설정해 사용할 수 있습니다.  
+Groq는 무료로 사용 가능합니다.
+
+**질문 제보**  
+면접에서 받았던 질문을 제보하면 Groq AI가 자동으로 모범 답변, 핵심 키워드, 난이도, 카테고리를 생성합니다.
 
 **북마크**  
 다시 보고 싶은 질문을 저장하고, 카테고리별로 묶어서 확인할 수 있습니다.
@@ -43,19 +47,21 @@ Claude, GPT-4, Gemini 중 원하는 모델을 선택하고 API 키를 설정해 
 
 ## 🛠 기술 스택
 
-<div align="center">
-
+**Frontend**  
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
-![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=zustand&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white)
 ![Lucide](https://img.shields.io/badge/Lucide_React-F56565?style=for-the-badge&logo=lucide&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+**Backend / Database**  
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+
+**AI**  
 ![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=white)
 
-</div>
+**Deploy**  
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 <br />
 
@@ -99,7 +105,7 @@ src/
 - [x] AI 피드백 (Claude, GPT-4, Gemini 지원)
 - [x] Vercel 배포
 - [x] 사용자 질문 제보 (AI 자동 모범 답변 생성)
-- [ ] 기업별 필터 (네카라쿠배 등)
+- [x] 기업 기출 배지
 
 <br />
 
