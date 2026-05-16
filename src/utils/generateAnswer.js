@@ -26,6 +26,7 @@ export async function generateQuestionData(title) {
 {
   "category_id": "위 카테고리 중 하나",
   "difficulty": "easy 또는 medium 또는 hard 중 하나",
+  "tags": ["태그1", "태그2", "태그3", "태그4"],
   "intent": "면접관이 이 질문을 하는 의도 (1-2문장)",
   "keywords": ["핵심키워드1", "핵심키워드2", "핵심키워드3", "핵심키워드4", "핵심키워드5"],
   "hint": "답변 방향을 잡을 수 있는 힌트 (1-2문장)",

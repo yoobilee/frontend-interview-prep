@@ -29,6 +29,7 @@ function Layout({ children }) {
         title: form.title.trim(),
         category_id: generated.category_id,
         difficulty: generated.difficulty,
+        tags: generated.tags || [],
         intent: generated.intent,
         keywords: generated.keywords,
         hint: generated.hint,

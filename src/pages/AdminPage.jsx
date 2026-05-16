@@ -33,6 +33,7 @@ function AdminPage() {
   const [loading, setLoading] = useState(false)
   const [expandedId, setExpandedId] = useState(null)
   const [filter, setFilter] = useState('pending')
+  const [processingId, setProcessingId] = useState(null)
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
@@ -57,20 +58,26 @@ function AdminPage() {
   }, [authenticated])
 
   const handleApprove = async (suggestion) => {
-    // questions 테이블에 추가
-    await supabase.from('questions').insert({
+    setProcessingId(suggestion.id)
+    const { error } = await supabase.from('questions').insert({
       category_id: suggestion.category_id,
       title: suggestion.title,
       difficulty: suggestion.difficulty,
-      tags: [],
+      tags: suggestion.tags || [],
       intent: suggestion.intent,
       keywords: suggestion.keywords,
       hint: suggestion.hint,
       answer: suggestion.answer,
     })
 
-    // status 업데이트
+    if (error) {
+      console.error('questions 삽입 오류:', error)
+      setProcessingId(null)
+      return
+    }
+
     await supabase.from('suggestions').update({ status: 'approved' }).eq('id', suggestion.id)
+    setProcessingId(null)
     fetchSuggestions()
   }
 
@@ -259,6 +266,8 @@ function AdminPage() {
                           borderRadius: '6px',
                           fontSize: '12px', fontWeight: 600,
                           cursor: 'pointer',
+                          opacity: processingId === s.id ? 0.5 : 1,
+                          cursor: processingId === s.id ? 'not-allowed' : 'pointer',
                         }}
                       >
                         <XCircle size={13} />
