@@ -83,6 +83,11 @@ function QuestionDetailPage() {
 
   const relatedQuestions = questions
     .filter(q => q.categoryId === question.categoryId && q.id !== question.id)
+    .map(q => {
+      const commonTags = q.tags.filter(tag => question.tags.includes(tag)).length
+      return { ...q, commonTags }
+    })
+    .sort((a, b) => b.commonTags - a.commonTags)
     .slice(0, 3)
 
   const toggleKeyword = (kw) => {
