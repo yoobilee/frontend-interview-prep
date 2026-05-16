@@ -8,6 +8,7 @@ import QuestionDetailPage from './pages/QuestionDetailPage'
 import CodingTestPage from './pages/CodingTestPage'
 import CodingProblemPage from './pages/CodingProblemPage'
 import SettingsPage from './pages/SettingsPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/coding" element={<Layout><CodingTestPage /></Layout>} />
         <Route path="/coding/:id" element={<Layout><CodingProblemPage /></Layout>} />
         <Route path="/settings" element={<Layout><SettingsPage /></Layout>} />
+        <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
       </Routes>
     </BrowserRouter>
   )
